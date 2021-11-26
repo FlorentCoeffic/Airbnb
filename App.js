@@ -14,6 +14,7 @@ import SplashScreen from "./containers/SplashScreen";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import RoomScreen from "./containers/RoomScreen";
+import { Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -91,14 +92,43 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator
-                      screenOptions={{
-                        headerShown: false,
-                      }}
-                    >
-                      <Stack.Screen name="Home">
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        options={{
+                          headerTitleAlign: "center",
+                          headerTitle: (props) => (
+                            <Image
+                              source={require("./assets/logo-airbnb.png")}
+                              style={{
+                                width: 30,
+                                height: 30,
+                                resizeMode: "contain",
+                              }}
+                            />
+                          ),
+                        }}
+                        name="Home"
+                      >
                         {() => <HomeScreen />}
                       </Stack.Screen>
+
+                      <Stack.Screen
+                        options={{
+                          headerTitleAlign: "center",
+                          headerTitle: (props) => (
+                            <Image
+                              source={require("./assets/logo-airbnb.png")}
+                              style={{
+                                width: 30,
+                                height: 30,
+                                resizeMode: "contain",
+                              }}
+                            />
+                          ),
+                        }}
+                        name="Room"
+                        component={RoomScreen}
+                      />
 
                       <Stack.Screen
                         name="Profile"
@@ -119,8 +149,8 @@ export default function App() {
                     tabBarIcon: ({ color, size }) => (
                       <SimpleLineIcons
                         name="location-pin"
-                        size={24}
-                        color="black"
+                        size={size}
+                        color={color}
                       />
                     ),
                   }}
@@ -142,16 +172,16 @@ export default function App() {
                 <Tab.Screen
                   name="TabSettings"
                   options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "My profile",
                     tabBarIcon: ({ color, size }) => (
-                      <AntDesign name="user" size={24} color="black" />
+                      <AntDesign name="user" size={size} color={color} />
                     ),
                   }}
                 >
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen
-                        name="Settings"
+                        name="My profile"
                         options={{
                           title: "Settings",
                         }}
@@ -165,8 +195,6 @@ export default function App() {
             )}
           </Stack.Screen>
         )}
-
-        <Stack.Screen name="Room" component={RoomScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 
-import Constants from "expo-constants";
-
 import {
-  Button,
   Text,
   View,
   FlatList,
@@ -12,8 +9,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  SafeAreaView,
   ImageBackground,
+  Dimensions,
 } from "react-native";
 import axios from "axios";
 import Rating from "../component/Rating";
@@ -41,7 +38,19 @@ export default function HomeScreen() {
     };
 
     fetchData();
-  });
+  }, []);
+
+  // const displayStars = (ratingValue) => {
+  //   const tab = [];
+  //   for (let i = 1; i <= 1; i++) {
+  //     if (ratingValue >= i) {
+  //       tab.push(<Entypo name="star" size={24} color="#EFD237" />);
+  //     } else {
+  //       tab.push(<Entypo name="star" size={24} color="#D0D0D0" />);
+  //     }
+  //   }
+  //   return tab;
+  // };
 
   return isLoading ? (
     <View>
@@ -49,99 +58,83 @@ export default function HomeScreen() {
       <ActivityIndicator size="large" color="#ED8086" style={{ flex: 1 }} />
     </View>
   ) : (
-    <SafeAreaView>
-      <View>
-        <View style={styles.header}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/logo-airbnb.png")}
-            style={{ width: 40, height: 40, resizeMode: "contain" }}
-          />
-        </View>
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item._id}
+      renderItem={({ item }) => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Room", { id: item._id });
+            }}
+            style={styles.container}
+          >
+            <ImageBackground
+              style={styles.image}
+              source={{ uri: `${item.photos[0].url}` }}
+              resizeMode="cover"
+            >
+              <View style={styles.price}>
+                <Text style={{ color: "white", fontSize: 20 }}>
+                  {item.price}€
+                </Text>
+              </View>
+            </ImageBackground>
 
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Room", { id: item._id });
-                }}
-              >
-                <View style={styles.container}>
-                  <View>
-                    <ImageBackground
-                      style={styles.image}
-                      source={{ uri: `${item.photos[0].url}` }}
-                      resizeMode="cover"
-                    >
-                      <Text style={styles.price}>{item.price}€</Text>
-                    </ImageBackground>
-
-                    <View style={styles.offerDescription}>
-                      <View style={styles.offerCard}>
-                        <Text numberOfLines={1} style={{ fontSize: 20 }}>
-                          {item.title}
-                        </Text>
-                        <View style={styles.rating}>
-                          <Text
-                            style={{
-                              color: "#DDDDDD",
-                            }}
-                          >
-                            <Rating ratingValue={item.ratingValue} />{" "}
-                            {item.reviews} reviews
-                          </Text>
-                        </View>
-                      </View>
-                      <Image
-                        style={{ width: 60, height: 60, borderRadius: 25 }}
-                        source={{ uri: `${item.user.account.photo.url}` }}
-                      />
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
-    </SafeAreaView>
+            <View style={styles.view}>
+              <View style={{ flex: 1 }}>
+                <Text numberOfLines={1} style={{ fontSize: 20 }}>
+                  {item.title}
+                </Text>
+                <Text
+                  style={{
+                    color: "#DDDDDD",
+                  }}
+                >
+                  <Rating ratingValue={item.ratingValue} /> {item.reviews}{" "}
+                  reviews
+                </Text>
+              </View>
+              <Image
+                style={styles.userImg}
+                source={{ uri: `${item.user.account.photo.url}` }}
+              />
+            </View>
+          </TouchableOpacity>
+        );
+      }}
+    />
   );
 }
 const styles = StyleSheet.create({
-  container: { margin: 10 },
-  header: {
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomColor: "#DDDDDD",
-    borderBottomWidth: 1,
-    marginBottom: 10,
+  container: { alignItems: "center", marginBottom: 20, marginTop: 10 },
+
+  image: {
+    width: Dimensions.get("window").width,
+    height: 250,
+    justifyContent: "flex-end",
   },
 
-  rating: { flexDirection: "row", alignItems: "center" },
-  offerDescription: {
+  view: {
+    // width: Dimensions.get("window").width * 0.9,
     flexDirection: "row",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
+
+    padding: 10,
     borderBottomColor: "#DDDDDD",
-    height: 60,
-    marginBottom: 10,
+    borderBottomWidth: 1,
   },
-  safeAreaView: {
-    backgroundColor: "white",
-    flex: 1,
-    marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
-  },
-  image: { width: `100%`, height: 200 },
+  rating: { flexDirection: "row", alignItems: "center" },
+
   price: {
     color: "white",
     fontSize: 20,
-    lineHeight: 50,
     width: 100,
-    textAlign: "center",
+    height: 50,
+    marginBottom: 10,
     backgroundColor: "#000000c0",
+    justifyContent: "center",
+    alignItems: "center",
   },
+
+  userImg: { width: 60, height: 60, borderRadius: 25, marginLeft: 12 },
 });

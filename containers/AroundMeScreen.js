@@ -37,7 +37,7 @@ export default function AroundMeScreen() {
             }
           );
 
-          console.log("====", response.data);
+          // console.log("====", response.data);
           setData(response.data);
         } else {
           alert("Permission refusée !");
@@ -50,7 +50,7 @@ export default function AroundMeScreen() {
     getCord();
   }, []);
 
-  console.log("===>", data);
+  // console.log("===>", data);
   const navigation = useNavigation();
   return isLoading === true ? (
     <ActivityIndicator size="large" />
@@ -69,10 +69,13 @@ export default function AroundMeScreen() {
       {data.map((item, index) => {
         return (
           <MapView.Marker
+            onPress={() => {
+              navigation.navigate("Room", { id: item._id });
+            }}
             key={index}
             coordinate={{
-              latitude: item.location[0],
-              longitude: item.location[1],
+              latitude: item.location[1],
+              longitude: item.location[0],
             }}
           />
         );
