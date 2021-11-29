@@ -16,7 +16,7 @@ export default function AroundMeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [coords, setCoords] = useState();
 
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const getCord = async () => {
@@ -30,11 +30,11 @@ export default function AroundMeScreen() {
           };
           setCoords(obj);
           const response = await axios.get(
-            " https://express-airbnb-api.herokuapp.com/rooms/around",
-            {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            }
+            `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`
+            // {
+            //   latitude: location.coords.latitude,
+            //   longitude: location.coords.longitude,
+            // }
           );
 
           // console.log("====", response.data);

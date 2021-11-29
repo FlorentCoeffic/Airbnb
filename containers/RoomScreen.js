@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Dimensions,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 import Rating from "../component/Rating";
@@ -47,16 +48,8 @@ export default function RoomScreen({ route }) {
       <ActivityIndicator size="large" color="#ED8086" style={{ flex: 1 }} />
     </View>
   ) : (
-    <View>
+    <ScrollView>
       <View style={styles.container}>
-        {/* <ImageBackground
-          style={styles.image}
-          source={{ uri: `${data.photos[0].url}` }}
-          resizeMode="cover"
-        >
-          <Text style={styles.price}>{data.price}€</Text>
-        </ImageBackground> */}
-
         <ImageBackground
           style={styles.image}
           source={{ uri: `${data.photos[0].url}` }}
@@ -69,7 +62,10 @@ export default function RoomScreen({ route }) {
 
         <View style={styles.offerDescription}>
           <View>
-            <Text numberOfLines={1} style={{ fontSize: 20 }}>
+            <Text
+              numberOfLines={1}
+              style={{ fontSize: 20, marginBottom: 10, marginTop: 10 }}
+            >
               {data.title}
             </Text>
             <View style={styles.rating}>
@@ -85,7 +81,7 @@ export default function RoomScreen({ route }) {
           </View>
 
           <Image
-            style={{ width: 70, height: 70, borderRadius: 50 }}
+            style={{ marginLeft: 12, width: 70, height: 70, borderRadius: 50 }}
             source={{ uri: `${data.user.account.photo.url}` }}
           />
         </View>
@@ -112,12 +108,15 @@ export default function RoomScreen({ route }) {
           }}
         />
       </MapView>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  rating: { flexDirection: "row" },
+  rating: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   container: { margin: 10 },
 
   image: {
@@ -136,7 +135,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  offerDescription: { flexDirection: "row", justifyContent: "space-between" },
+  offerDescription: {
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   description: { fontSize: 15 },
   map: { width: 500, height: 300 },
 });

@@ -83,12 +83,16 @@ export default function HomeScreen() {
 
             <View style={styles.view}>
               <View style={{ flex: 1 }}>
-                <Text numberOfLines={1} style={{ fontSize: 20 }}>
+                <Text
+                  numberOfLines={1}
+                  style={{ fontSize: 20, marginBottom: 10 }}
+                >
                   {item.title}
                 </Text>
                 <Text
                   style={{
                     color: "#DDDDDD",
+                    alignItems: "center",
                   }}
                 >
                   <Rating ratingValue={item.ratingValue} /> {item.reviews}{" "}
@@ -107,7 +111,7 @@ export default function HomeScreen() {
   );
 }
 const styles = StyleSheet.create({
-  container: { alignItems: "center", marginBottom: 20, marginTop: 10 },
+  container: { alignItems: "center", marginBottom: 20 },
 
   image: {
     width: Dimensions.get("window").width,
@@ -116,14 +120,15 @@ const styles = StyleSheet.create({
   },
 
   view: {
-    // width: Dimensions.get("window").width * 0.9,
     flexDirection: "row",
-
     padding: 10,
     borderBottomColor: "#DDDDDD",
     borderBottomWidth: 1,
   },
-  rating: { flexDirection: "row", alignItems: "center" },
+  rating: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 
   price: {
     color: "white",

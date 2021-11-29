@@ -1,5 +1,7 @@
-import React from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React, { useState } from "react";
+
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   StyleSheet,
@@ -8,11 +10,55 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
 } from "react-native";
+import axios from "axios";
 
 export default function SignUpScreen({ setToken }) {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
+  const [hidePass, setHidePass] = useState(true);
+
+  const submit = async () => {
+    if (email && username && password && confirmPassword && description) {
+      setError("");
+      if (password === confirmPassword) {
+        try {
+          const response = await axios.post(
+            "https://express-airbnb-api.herokuapp.com/user/sign_up",
+            {
+              email: email,
+              password: password,
+              description: description,
+              username: username,
+            }
+          );
+          setData(response.data.token);
+        } catch (error) {
+          console.log(error.response.status);
+          console.log(error.response.data);
+          if (
+            error.response.data.error ===
+              "This username already has an account." ||
+            error.response.data.error === "This email already has an account."
+          ) {
+            setError(error.response.data.error);
+          }
+        }
+      } else {
+        setError("Password must be the same");
+      }
+    } else {
+      setError("Please fill all fields");
+    }
+  };
+
   return (
-    <KeyboardAwareScrollView>
+    <ScrollView>
       <View style={styles.body}>
         <View style={styles.presentation}>
           <Image
@@ -23,32 +69,71 @@ export default function SignUpScreen({ setToken }) {
         </View>
 
         <View style={styles.inputs}>
-          <TextInput style={styles.input} placeholder="email" />
-          <TextInput style={styles.input} placeholder="username" />
           <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+            }}
+            placeholder="email"
+          />
+
+          <TextInput
+            value={username}
+            onChangeText={(text) => {
+              setUsername(text);
+            }}
+            style={styles.input}
+            placeholder="username"
+          />
+          <TextInput
+            value={description}
+            onChangeText={(text) => {
+              setDescription(text);
+            }}
             style={styles.textArea}
             placeholder="Describe yourself in a few words..."
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="password"
-            secureTextEntry={true}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="confirm password"
-            secureTextEntry={true}
-          />
+          <View style={[styles.input, styles.password]}>
+            <TextInput
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+              placeholder="password"
+              secureTextEntry={hidePass ? true : false}
+            />
+            <Ionicons
+              name={hidePass ? "eye-off" : "eye"}
+              size={15}
+              color="grey"
+              onPress={() => setHidePass(!hidePass)}
+            />
+          </View>
+
+          <View style={[styles.input, styles.password]}>
+            <TextInput
+              value={confirmPassword}
+              onChangeText={(text) => {
+                setConfirmPassword(text);
+              }}
+              placeholder="confirm password"
+              secureTextEntry={hidePass ? true : false}
+            />
+
+            <Ionicons
+              name={hidePass ? "eye-off" : "eye"}
+              size={15}
+              color="grey"
+              onPress={() => setHidePass(!hidePass)}
+            />
+          </View>
+
+          <Text style={{ color: "red", marginTop: 5 }}>{error}</Text>
 
           <View style={styles.links}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={async () => {
-                const userToken = "secret-token";
-                setToken(userToken);
-              }}
-            >
+            <TouchableOpacity style={styles.button} onPress={submit}>
               <Text style={{ color: "grey", fontSize: 16 }}>Sign up</Text>
             </TouchableOpacity>
 
@@ -65,7 +150,7 @@ export default function SignUpScreen({ setToken }) {
           </View>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 
@@ -91,6 +176,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     marginBottom: 30,
+  },
+
+  password: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   textArea: {
