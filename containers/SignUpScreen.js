@@ -37,7 +37,8 @@ export default function SignUpScreen({ setToken }) {
               username: username,
             }
           );
-          setData(response.data.token);
+          setToken(response.data.token);
+          navigation.navigate("Home");
         } catch (error) {
           console.log(error.response.status);
           console.log(error.response.data);
@@ -138,9 +139,8 @@ export default function SignUpScreen({ setToken }) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={async () => {
-                const userToken = "secret-token";
-                setToken(userToken);
+              onPress={() => {
+                navigation.navigate("SignIn");
               }}
             >
               <Text style={styles.signupLink}>

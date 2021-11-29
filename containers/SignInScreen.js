@@ -37,9 +37,9 @@ export default function SignInScreen({ setToken }) {
           }
         );
 
-        if (response.data.token && response.data.id) {
+        if (response.data.token) {
           setToken(response.data.token);
-          setId(response.data.id);
+          navigation.navigate("Home");
         } else {
           setError("An error occurred");
         }
@@ -76,7 +76,6 @@ export default function SignInScreen({ setToken }) {
 
         <View style={[styles.input, styles.password]}>
           <TextInput
-            // style={styles.input}
             onChangeText={(text) => {
               setPassword(text);
             }}
@@ -93,17 +92,15 @@ export default function SignInScreen({ setToken }) {
         </View>
 
         <View style={styles.links}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={async () => {
-              const userToken = "secret-token";
-              setToken(userToken);
-            }}
-          >
+          <TouchableOpacity style={styles.button} onPress={submit}>
             <Text style={{ color: "grey", fontSize: 16 }}>Sign in</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={submit}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("SignUp");
+            }}
+          >
             <Text style={styles.signupLink}>No account ? Register</Text>
           </TouchableOpacity>
         </View>
