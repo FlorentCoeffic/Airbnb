@@ -48,7 +48,7 @@ export default function App() {
       const userId = await AsyncStorage.getItem("userId");
 
       setUserToken(userToken);
-      setUserToken(userId);
+      setUserId(userId);
 
       setIsLoading(false);
     };
@@ -59,7 +59,8 @@ export default function App() {
   if (isLoading === true) {
     return null;
   }
-
+  // console.log("=======", userId);
+  // console.log("====>", userToken);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -140,7 +141,12 @@ export default function App() {
                           title: "User Profile",
                         }}
                       >
-                        {() => <ProfileScreen userId={userId} />}
+                        {() => (
+                          <ProfileScreen
+                            userId={userId}
+                            userToken={userToken}
+                          />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
