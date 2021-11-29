@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import axios from "axios";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, setId }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +38,7 @@ export default function SignUpScreen({ setToken }) {
             }
           );
           setToken(response.data.token);
-          navigation.navigate("Home");
+          setId(response.data.id);
         } catch (error) {
           console.log(error.response.status);
           console.log(error.response.data);

@@ -15,7 +15,7 @@ import {
   Image,
 } from "react-native";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setToken, setId }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +39,7 @@ export default function SignInScreen({ setToken }) {
 
         if (response.data.token) {
           setToken(response.data.token);
-          navigation.navigate("Home");
+          setId(response.data.id);
         } else {
           setError("An error occurred");
         }
@@ -95,6 +95,8 @@ export default function SignInScreen({ setToken }) {
           <TouchableOpacity style={styles.button} onPress={submit}>
             <Text style={{ color: "grey", fontSize: 16 }}>Sign in</Text>
           </TouchableOpacity>
+
+          {/* <Text> {error}</Text> */}
 
           <TouchableOpacity
             onPress={() => {

@@ -28,8 +28,6 @@ export default function RoomScreen({ route }) {
           `https://express-airbnb-api.herokuapp.com/rooms/${id}`
         );
 
-        console.log("==", response.data.location);
-
         setData(response.data);
         setIsLoading(false);
       } catch (error) {

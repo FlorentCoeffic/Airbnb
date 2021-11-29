@@ -3,18 +3,26 @@ import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 
-export default function ProfilesScreen({ setToken }) {
+export default function ProfilesScreen({ setToken, userId }) {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [data, setData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "https://express-airbnb-api.herokuapp.com/user/:id"
-      );
+      try {
+        const response = await axios.get(
+          `https://express-airbnb-api.herokuapp.com/user/${userId}`
+        );
+        console.log("===", response.data);
+        setData(response.data);
+      } catch (error) {
+        console.log(error.message);
+      }
     };
-  });
+
+    fetchData();
+  }, []);
 
   return (
     <View>
