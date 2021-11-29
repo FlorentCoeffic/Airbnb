@@ -15,7 +15,7 @@ export default function ProfilesScreen({ setToken, userId }) {
           `https://express-airbnb-api.herokuapp.com/user/${userId}`
         );
         console.log("===", response.data);
-        setData(response.data);
+        // setData(response);
       } catch (error) {
         console.log(error.message);
       }

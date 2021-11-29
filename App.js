@@ -45,7 +45,10 @@ export default function App() {
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
+      const userId = await AsyncStorage.getItem("userId");
+
       setUserToken(userToken);
+      setUserToken(userId);
 
       setIsLoading(false);
     };
@@ -137,7 +140,7 @@ export default function App() {
                           title: "User Profile",
                         }}
                       >
-                        {() => <ProfileScreen />}
+                        {() => <ProfileScreen userId={userId} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
