@@ -135,7 +135,7 @@ export default function App() {
                         component={RoomScreen}
                       />
 
-                      <Stack.Screen
+                      {/* <Stack.Screen
                         name="Profile"
                         options={{
                           title: "User Profile",
@@ -147,7 +147,7 @@ export default function App() {
                             userToken={userToken}
                           />
                         )}
-                      </Stack.Screen>
+                      </Stack.Screen> */}
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
@@ -218,7 +218,12 @@ export default function App() {
                         }}
                       >
                         {() => (
-                          <ProfileScreen setToken={setToken} userId={userId} />
+                          <ProfileScreen
+                            setToken={setToken}
+                            userId={userId}
+                            userToken={userToken}
+                            setId={setId}
+                          />
                         )}
                       </Stack.Screen>
                     </Stack.Navigator>

@@ -38,6 +38,7 @@ export default function SignInScreen({ setToken, setId }) {
         );
 
         if (response.data.token) {
+          console.log("===>", response.data);
           setToken(response.data.token);
           setId(response.data.id);
         } else {
