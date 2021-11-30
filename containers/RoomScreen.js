@@ -42,7 +42,6 @@ export default function RoomScreen({ route }) {
 
   return isLoading ? (
     <View>
-      <Text>En cours de chargement</Text>
       <ActivityIndicator size="large" color="#ED8086" style={{ flex: 1 }} />
     </View>
   ) : (

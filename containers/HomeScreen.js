@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import Rating from "../component/Rating";
 
-export default function HomeScreen() {
+export default function HomeScreen({ setToken, setId }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,7 +54,6 @@ export default function HomeScreen() {
 
   return isLoading ? (
     <View>
-      <Text>En cours de chargement</Text>
       <ActivityIndicator size="large" color="#ED8086" style={{ flex: 1 }} />
     </View>
   ) : (
@@ -82,6 +81,14 @@ export default function HomeScreen() {
             </ImageBackground>
 
             <View style={styles.view}>
+              <TouchableOpacity
+                onPress={() => {
+                  setToken(null);
+                  setId(null);
+                }}
+              >
+                <Text style={{ color: "grey", fontSize: 16 }}> Log out </Text>
+              </TouchableOpacity>
               <View style={{ flex: 1 }}>
                 <Text
                   numberOfLines={1}
