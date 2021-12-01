@@ -16,7 +16,9 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
-
+  const [mail, setMail] = useState();
+  const [username, setUsername] = useState();
+  const [description, setDescription] = useState();
   // console.log("---", data);
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +63,7 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
 
   const getPermissionAndTakePicture = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status === "garanted") {
+    if (status === "granted") {
       const result = await ImagePicker.launchCameraAsync();
       setImage(result.uri);
     } else {
@@ -96,7 +98,7 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
     }
   };
 
-  const uploadInfo = async () => {
+  const updateInfo = async () => {
     try {
       const response = await axios.put(
         `https://express-airbnb-api.herokuapp.com/user/update`,
@@ -117,15 +119,17 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
     </View>
   ) : (
     <View style={styles.container}>
-      <View style={styles.userAvatar}>
-        {data.photo !== null ? (
-          <Image
-            source={{ uri: data.photo.url }}
-            style={{ height: 120, width: 120, borderRadius: 100 }}
-          />
-        ) : (
-          <MaterialIcons name="person" size={120} color="grey" />
-        )}
+      <View style={{ flexDirection: "row" }}>
+        <View style={styles.userAvatar}>
+          {data.photo !== null ? (
+            <Image
+              source={{ uri: data.photo.url }}
+              style={{ height: 120, width: 120, borderRadius: 100 }}
+            />
+          ) : (
+            <MaterialIcons name="person" size={120} color="grey" />
+          )}
+        </View>
 
         <View style={styles.updateAvatar}>
           <TouchableOpacity onPress={getPermissionAndGetPicture}>
@@ -194,7 +198,6 @@ const styles = StyleSheet.create({
   },
 
   textArea: {
-    alignItems: "flex-start",
     marginLeft: 30,
     marginRight: 30,
     marginTop: 30,
@@ -207,7 +210,7 @@ const styles = StyleSheet.create({
   button: {
     borderColor: "#ED8086",
     borderWidth: 2,
-    borderRadius: 50,
+    borderRadius: 25,
     marginTop: 30,
     color: "grey",
     fontSize: 15,
