@@ -16,10 +16,10 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
-  const [mail, setMail] = useState();
+  const [email, setEmail] = useState();
   const [username, setUsername] = useState();
   const [description, setDescription] = useState();
-  // console.log("---", data);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,9 +31,11 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
             },
           }
         );
-        // console.log(response);
 
         setData(response.data);
+        setEmail(response.data.email);
+        setUsername(response.data.username);
+        setDescription(response.data.description);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -100,8 +102,10 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
 
   const updateInfo = async () => {
     try {
+      const informations = { email, description, username };
       const response = await axios.put(
         `https://express-airbnb-api.herokuapp.com/user/update`,
+        informations,
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -143,12 +147,35 @@ export default function ProfilesScreen({ setToken, userId, userToken, setId }) {
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} value={data.email} />
-        <TextInput style={styles.input} value={data.username} />
-        <TextInput style={styles.textArea} value={data.description} />
+        <TextInput
+          onChangeText={(text) => {
+            setEmail(text);
+          }}
+          style={styles.input}
+          value={email}
+        />
+        <TextInput
+          onChangeText={(text) => {
+            setUsername(text);
+          }}
+          style={styles.input}
+          value={username}
+        />
+        <TextInput
+          onChangeText={(text) => {
+            setDescription(text);
+          }}
+          style={styles.textArea}
+          value={description}
+        />
       </View>
 
-      <TouchableOpacity onPress={sendPicture}>
+      <TouchableOpacity
+        onPress={() => {
+          sendPicture();
+          updateInfo();
+        }}
+      >
         <Text style={styles.button}>Update</Text>
       </TouchableOpacity>
 

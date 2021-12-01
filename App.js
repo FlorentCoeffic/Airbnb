@@ -114,7 +114,7 @@ export default function App() {
                         }}
                         name="Home"
                       >
-                        {() => <HomeScreen setToken={setToken} setId={setId} />}
+                        {() => <HomeScreen />}
                       </Stack.Screen>
 
                       <Stack.Screen

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
-
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   StyleSheet,

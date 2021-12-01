@@ -19,7 +19,7 @@ export default function SignInScreen({ setToken, setId }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("null");
+  const [error, setError] = useState("");
   const [hidePass, setHidePass] = useState(true);
 
   const submit = async () => {
@@ -38,7 +38,6 @@ export default function SignInScreen({ setToken, setId }) {
         );
 
         if (response.data.token) {
-          console.log("===>", response.data);
           setToken(response.data.token);
           setId(response.data.id);
         } else {
@@ -57,7 +56,7 @@ export default function SignInScreen({ setToken, setId }) {
   };
 
   return (
-    <View style={styles.test}>
+    <View style={styles.container}>
       <View style={styles.presentation}>
         <Image
           style={styles.logo}
@@ -93,11 +92,11 @@ export default function SignInScreen({ setToken, setId }) {
         </View>
 
         <View style={styles.links}>
+          <Text style={{ color: "red", marginTop: 5 }}>{error}</Text>
+
           <TouchableOpacity style={styles.button} onPress={submit}>
             <Text style={{ color: "grey", fontSize: 16 }}>Sign in</Text>
           </TouchableOpacity>
-
-          {/* <Text> {error}</Text> */}
 
           <TouchableOpacity
             onPress={() => {
@@ -124,7 +123,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 80,
   },
-  test: { backgroundColor: "white" },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   background: {
     margin: 20,
   },

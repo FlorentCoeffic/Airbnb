@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import Rating from "../component/Rating";
 
-export default function HomeScreen({ setToken, setId }) {
+export default function HomeScreen() {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,8 +28,6 @@ export default function HomeScreen({ setToken, setId }) {
           "https://express-airbnb-api.herokuapp.com/rooms"
         );
 
-        // console.log(response.data);
-
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -40,17 +38,17 @@ export default function HomeScreen({ setToken, setId }) {
     fetchData();
   }, []);
 
-  // const displayStars = (ratingValue) => {
-  //   const tab = [];
-  //   for (let i = 1; i <= 1; i++) {
-  //     if (ratingValue >= i) {
-  //       tab.push(<Entypo name="star" size={24} color="#EFD237" />);
-  //     } else {
-  //       tab.push(<Entypo name="star" size={24} color="#D0D0D0" />);
-  //     }
-  //   }
-  //   return tab;
-  // };
+  const displayStars = (ratingValue) => {
+    const tab = [];
+    for (let i = 1; i <= 1; i++) {
+      if (ratingValue >= i) {
+        tab.push(<Entypo name="star" size={24} color="#EFD237" />);
+      } else {
+        tab.push(<Entypo name="star" size={24} color="#D0D0D0" />);
+      }
+    }
+    return tab;
+  };
 
   return isLoading ? (
     <View>
@@ -81,14 +79,6 @@ export default function HomeScreen({ setToken, setId }) {
             </ImageBackground>
 
             <View style={styles.view}>
-              <TouchableOpacity
-                onPress={() => {
-                  setToken(null);
-                  setId(null);
-                }}
-              >
-                <Text style={{ color: "grey", fontSize: 16 }}> Log out </Text>
-              </TouchableOpacity>
               <View style={{ flex: 1 }}>
                 <Text
                   numberOfLines={1}

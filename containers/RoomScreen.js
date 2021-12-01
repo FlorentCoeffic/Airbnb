@@ -41,7 +41,7 @@ export default function RoomScreen({ route }) {
   const navigation = useNavigation();
 
   return isLoading ? (
-    <View>
+    <View style={styles.container}>
       <ActivityIndicator size="large" color="#ED8086" style={{ flex: 1 }} />
     </View>
   ) : (
@@ -58,7 +58,7 @@ export default function RoomScreen({ route }) {
         </ImageBackground>
 
         <View style={styles.offerDescription}>
-          <View>
+          <View style={{ flex: 1, marginRight: 30 }}>
             <Text
               numberOfLines={1}
               style={{ fontSize: 20, marginBottom: 10, marginTop: 10 }}
@@ -78,7 +78,7 @@ export default function RoomScreen({ route }) {
           </View>
 
           <Image
-            style={{ marginLeft: 12, width: 70, height: 70, borderRadius: 50 }}
+            style={{ width: 70, height: 70, borderRadius: 50 }}
             source={{ uri: `${data.user.account.photo.url}` }}
           />
         </View>
@@ -110,12 +110,12 @@ export default function RoomScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  rating: {
-    flexDirection: "row",
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
     alignItems: "center",
+    justifyContent: "center",
   },
-  container: { margin: 10 },
-
   image: {
     width: Dimensions.get("window").width,
     height: 250,
@@ -132,12 +132,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  rating: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   offerDescription: {
-    marginTop: 20,
+    marginHorizontal: 10,
+    marginTop: 10,
     marginBottom: 20,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  description: { fontSize: 15 },
+  description: { fontSize: 15, marginBottom: 15, marginHorizontal: 10 },
   map: { width: 500, height: 300 },
 });
